@@ -9,8 +9,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .forms import *
-from .models import *
+from.forms import *
+from.models import *
 # Create your views here.
 
 def index (request):
@@ -18,3 +18,19 @@ def index (request):
     
     return render(request, 'index.html')
 
+def registrar(request):
+    datos = {
+        'form' : formularioRegistro()
+    }
+    if request.method == 'POST':
+        formulario = formularioRegistro(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            #user = authenticate(username=formulario.cleaned_data["username"],password=formulario.cleaned_data["password1"])
+            #login(request,user)
+            #messages.success(request,'Registrado correctamente!')
+            #User.groups.add(Empleado)
+            #return redirect(to="home")
+        datos["form"] = formulario
+
+    return render(request, 'app/registration/register.html', datos)
